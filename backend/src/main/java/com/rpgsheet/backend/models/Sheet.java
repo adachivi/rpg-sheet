@@ -8,11 +8,12 @@ import lombok.*;
 public class Sheet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String characterName;
-    private String playerName;
-    private String concept;
+    String sheetKey;
+    String characterName;
+    String playerName;
+    String concept;
 
     // Attributes {
     // Physical

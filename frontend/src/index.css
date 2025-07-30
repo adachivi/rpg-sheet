@@ -16,14 +16,46 @@ a {
   text-decoration: none;
 }
 
-body {
+.page-body {
+  padding: 2rem;
+}
+
+/* TABLES vvv */
+td, th {
+  border: 1px solid black;
+}
+
+th {
+  text-align: center;
+}
+
+.home-table {
+  border-collapse: collapse;
+}
+
+.home-table td {
+  text-align: left;
+}
+
+.home-table th {
+  text-align: left;
+}
+
+.sheet-table { 
+  border-collapse: collapse;
   width: 100%;
 }
 
+.attribute-td-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+/* ^^^ TABLES */
+
+/* NAVEGATION BAR vvv */
 nav {
   background-color: #333;
   padding: 1rem;
-  width: 100%;
 }
 
 nav a {
@@ -36,10 +68,7 @@ nav a:hover {
   background-color: #ddd;
   color: black;
 }
-
-.page-body {
-  padding: 2rem;
-}
+/* ^^^ NAVEGATION BAR */
 
 /*
 body {

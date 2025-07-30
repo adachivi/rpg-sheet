@@ -24,7 +24,7 @@ const Home = () => {
       <h1>All Sheets</h1>
 
       <div>
-        <table>
+        <table className="home-table">
           <thead>
             <tr>
               <th>Character</th>
