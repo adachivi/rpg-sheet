@@ -10,10 +10,10 @@ public class Sheet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String sheetKey;
     String characterName;
     String playerName;
     String concept;
+    String sheetKey;
 
     // Attributes {
     // Physical

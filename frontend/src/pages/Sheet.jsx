@@ -1,252 +1,230 @@
-import React, { useState, useId } from 'react';
-import api from '../services/api';
+// Sheet page -> see and edit (PUT) sheet's data
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import api from "../services/api";
+import { handleCheckboxes, handleTextInputChange, initializeCheckboxes } from "../utils/Utils";
 
 const Sheet = () => {
-    const submitSheet = () => {
-        const id = useId();
-        const characterName = document.getElementById("characterName").value;
-        const playerName = document.getElementById("playerName").value;
-        const concept = document.getElementById("concept").value;
+  // Sheet's state
+  const [sheet, setSheet] = useState({
+    id: null,
+    characterName: "",
+    playerName: "",
+    concept: "",
+    sheetKey: "",
+    
+    strength: 0,
+    charisma: 0,
+    intelligence: 0,
+    dexterity: 0,
+    manipulation: 0,
+    wits: 0,
+    stamina: 0,
+    composure: 0,
+    resolve: 0
+  });
 
-        const strength = attributesValues.strength;
-        const charisma = attributesValues.charisma;
-        const intelligence = attributesValues.intelligence;
-        const dexterity = attributesValues.dexterity;
-        const manipulation = attributesValues.manipulation;
-        const wits = attributesValues.wits;
-        const stamina = attributesValues.stamina;
-        const composure = attributesValues.composure;
-        const resolve = attributesValues.resolve;
+  // Get URL parameters
+  const [searchParams] = useSearchParams();
+  const playerName = searchParams.get("playerName");
+  const sheetKey = searchParams.get("sheetKey");
 
-        let alphabeticalRegex = /[A-Za-z]/;
-        if ((alphabeticalRegex.test(characterName) == true)
-            && (alphabeticalRegex.test(playerName) == true)) {
-          api.post('/sheet', {characterName, playerName, concept, strength, charisma, intelligence, dexterity, manipulation, wits, stamina, composure, resolve});
-          alert("Sheet created successfully!");
-        }
-        else {
-          alert("Can't create sheet: character name or player name is missing.");
-        }
+  // GET: Get sheet's data using URL parameters
+  useEffect(() => {
+    api.get(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`)
+      .then(response => {
+        setSheet(response.data);
+      })
+      .catch(error => {
+        console.error("Error: Sheet's data not found:", error);
+      });
+  }, []);
+
+  // PUT: Save sheet (submit it to the database)
+  const [shouldSaveSheet, setShouldSaveSheet] = useState(false);
+  useEffect(() => {
+    if (shouldSaveSheet) {
+      api.put(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`, sheet, {
+        headers: {"Content-type": "application/json"}
+      });
+      setShouldSaveSheet(false);
     };
+  }, [shouldSaveSheet]);
 
-    // Attribute's checkboxes values (React state)
-    const [attributes, setAttributes] = useState({
-      strength: [false, false, false, false, false],
-      charisma: [false, false, false, false, false],
-      intelligence: [false, false, false, false, false],
-      dexterity: [false, false, false, false, false],
-      manipulation: [false, false, false, false, false],
-      wits: [false, false, false, false, false],
-      stamina: [false, false, false, false, false],
-      composure: [false, false, false, false, false],
-      resolve: [false, false, false, false, false]
-    });
+  // Attribute's checkboxes {
+  // State
+  const [attrCheckboxes, setAttrCheckboxes] = useState({
+    strength: [false, false, false, false, false],
+    charisma: [false, false, false, false, false],
+    intelligence: [false, false, false, false, false],
+    dexterity: [false, false, false, false, false],
+    manipulation: [false, false, false, false, false],
+    wits: [false, false, false, false, false],
+    stamina: [false, false, false, false, false],
+    composure: [false, false, false, false, false],
+    resolve: [false, false, false, false, false]
+  });
 
-    // Attribute's numerica values for the database (React state)
-    const [attributesValues, setAttributesValues] = useState({
-      strength: 0,
-      charisma: 0,
-      intelligence: 0,
-      dexterity: 0,
-      manipulation: 0,
-      wits: 0,
-      stamina: 0,
-      composure: 0,
-      resolve: 0
-    });
+  // State initialization
+  useEffect(() => {
+    initializeCheckboxes("strength", sheet.strength, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("charisma", sheet.charisma, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("intelligence", sheet.intelligence, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("dexterity", sheet.dexterity, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("manipulation", sheet.manipulation, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("wits", sheet.wits, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("stamina", sheet.stamina, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("composure", sheet.composure, attrCheckboxes, setAttrCheckboxes);
+    initializeCheckboxes("resolve", sheet.resolve, attrCheckboxes, setAttrCheckboxes);
+  }, [sheet]);
+  // } Attribute's checkboxes
 
-    // Autofill the rest of the checkboxes of a attribute based on which one was marked
-    // Also updates the attribute's numeric values to send it to the database
-    const autofillCheckboxes = (attr, index) => {
-      const updatedAttribute = [...attributes[attr]];
-      var attrValue;
-      for (let i = 0; i < 5; i++) {
-        if (i < index) {
-          updatedAttribute[i] = true;
-        }
-        else if (i == index) {
-          if (index == 0 && updatedAttribute[0] == true && updatedAttribute[1] != true) {
-            updatedAttribute[i] = false;
-            attrValue = index;
-          }
-          else {
-            updatedAttribute[i] = true;
-            attrValue = index + 1;
-          }
-        }
-        else {
-          updatedAttribute[i] = false;
-        }
-      }
+  // Test (delete later)
+  useEffect(() => {
+    console.log("Sheet:", sheet);
+  }, [sheet]);
 
-      setAttributes(prev => ({...prev, [attr]: updatedAttribute}));
-      setAttributesValues(prev => ({...prev, [attr]: prev[attr] + attrValue}));
-    }
+  // View
+  if (sheet.id == null) return (
+    <p style={{ padding: '2rem' }}>Carregando...</p>
+  );
 
-    // View
-    return (
-      <div className="page-body">
-        <h1>Create a new sheet</h1>
-
-        {/* General info */}
-        <table className="sheet-table">
-          <thead>
-            <tr>
-              <th>Character</th>
-              <th>Player</th>
-              <th>Concept</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><input type="text" id="characterName" name="characterName"></input></td>
-              <td><input type="text" id="playerName" name="playerName"></input></td>
-              <td><input type="text" id="concept" name="concept"></input></td>
-            </tr>
-          </tbody>
-        </table>
-        
-        {/* Attributes */}
-        <h3>Attributes</h3>
-        <table className="sheet-table">
-          <thead>
-            <tr>
-              <th>Physical</th>
-              <th>Social</th>
-              <th>Mental</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Strength</p>
-                  {attributes.strength.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("strength", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Charisma</p>
-                  {attributes.charisma.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("charisma", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Intelligence</p>
-                  {attributes.intelligence.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("intelligence", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Dexterity</p>
-                  {attributes.dexterity.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("dexterity", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Manipulation</p>
-                  {attributes.manipulation.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("manipulation", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Wits</p>
-                  {attributes.wits.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("wits", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Stamina</p>
-                  {attributes.stamina.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("stamina", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Composure</p>
-                  {attributes.composure.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("composure", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-              <td>
-                <div className="attribute-td-content">
-                  <p>Resolve</p>
-                  {attributes.resolve.map((checked, index) => (
-                    <input
-                      key={index}
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => autofillCheckboxes("resolve", index)}
-                    />
-                  ))}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <button type="button" onClick={submitSheet}>Submit</button>
-      
+  return (
+    <div className="page-body">
+      <div>
+        {/* Sheet's access info */}
+        <div>
+          <div>Player: {sheet.playerName}</div>
+          <div>Sheet key: {sheet.sheetKey}</div>
+        </div>
+        <button type="button" onClick={(event) => {
+          event.preventDefault();
+          setShouldSaveSheet(true);}}
+        >Save</button>
       </div>
-    );
+
+      {/* General info */}
+      <table className="sheet-table">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Concept</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                type="text"
+                value={sheet.characterName}
+                onChange={(event) => handleTextInputChange("characterName", event, setSheet)}
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                value={sheet.concept}
+                onChange={(event) => handleTextInputChange("concept", event, setSheet)}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      {/* Attributes */}
+      <div>Attributes</div>
+      <table className="sheet-table">
+        <thead>
+          <tr>
+            <th>Physical</th>
+            <th>Social</th>
+            <th>Mental</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> {/* Strength */}
+              <div className="checkbox-td">
+                Strength {attrCheckboxes.strength.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("strength", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+            <td> {/* Charisma */}
+              <div className="checkbox-td">
+                Charisma {attrCheckboxes.charisma.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("charisma", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+            <td> {/* Intelligence */}
+              <div className="checkbox-td">
+                Intelligence {attrCheckboxes.intelligence.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("intelligence", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td> {/* Dexterity */}
+              <div className="checkbox-td">
+                Dexterity {attrCheckboxes.dexterity.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("dexterity", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+            <td> {/* Manipulation */}
+              <div className="checkbox-td">
+                Manipulation {attrCheckboxes.manipulation.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("manipulation", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+            <td> {/* Wits */}
+              <div className="checkbox-td">
+                Wits {attrCheckboxes.wits.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("wits", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td> {/* Stamina */}
+              <div className="checkbox-td">
+                Stamina {attrCheckboxes.stamina.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("stamina", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+            <td> {/* Composure */}
+              <div className="checkbox-td">
+                Composure {attrCheckboxes.composure.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("composure", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+            <td> {/* Resolve */}
+              <div className="checkbox-td">
+                Resolve {attrCheckboxes.resolve.map((checked, index) => (
+                  <input key={index} type="checkbox" checked={checked}
+                  onChange={() => handleCheckboxes("resolve", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                ))}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 export default Sheet;

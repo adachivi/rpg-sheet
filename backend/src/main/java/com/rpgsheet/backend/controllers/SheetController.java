@@ -16,17 +16,10 @@ public class SheetController {
     private SheetRepository repository;
 
     // CRUD {
-    // GET: Homepage
+    // GET: Homepage (APAGAR)
     @GetMapping(value = "/home")
     public List<Sheet> getHome() {
         return repository.findAll();
-    }
-
-    // GET: Get a sheet by its id
-    @GetMapping(value = "/sheet/{id}")
-    public Sheet getSheet(@PathVariable Long id) {
-        return repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Sheet id can't be null."));
     }
 
     // POST: Create a new sheet
@@ -35,34 +28,46 @@ public class SheetController {
         return repository.save(newSheet);
     }
 
-    // PUT: Edit a sheet
-    @PutMapping("/sheet/{id}")
-    public Sheet editSheet(@PathVariable Long id, @RequestBody Sheet editedSheet) {
-        return repository.findById(id)
-            .map(sheet -> {
-                sheet.setCharacterName(editedSheet.getCharacterName());
-                sheet.setPlayerName(editedSheet.getPlayerName());
-                sheet.setConcept(editedSheet.getConcept());
-                sheet.setStrength(editedSheet.getStrength());
-                sheet.setDexterity(editedSheet.getDexterity());
-                sheet.setStamina(editedSheet.getStamina());
-                sheet.setCharisma(editedSheet.getCharisma());
-                sheet.setManipulation(editedSheet.getManipulation());
-                sheet.setComposure(editedSheet.getComposure());
-                sheet.setIntelligence(editedSheet.getIntelligence());
-                sheet.setWits(editedSheet.getWits());
-                sheet.setResolve(editedSheet.getResolve());
-                
-                return repository.save(sheet);
-            })
+    // GET: Get a sheet by its playerName and sheetKey values
+    @GetMapping(value = "/sheet")
+    public Sheet accessSheet(
+        @RequestParam String playerName,
+        @RequestParam String sheetKey
+    ) {
+        return repository.findByPlayerNameAndSheetKey(playerName, sheetKey)
             .orElseThrow(() -> new RuntimeException("Sheet not found."));
     }
+
+    // PUT: Save sheet in the database
+    @PutMapping(value = "/sheet")
+    public Sheet saveSheet(
+        @RequestParam String playerName,
+        @RequestParam String sheetKey,
+        @RequestBody Sheet sheetToSave
+    ) {
+        return repository.findByPlayerNameAndSheetKey(playerName, sheetKey)
+            .map((databaseSheet) -> {
+                databaseSheet.setCharacterName(sheetToSave.getCharacterName());
+                databaseSheet.setConcept(sheetToSave.getConcept());
+                databaseSheet.setStrength(sheetToSave.getStrength());
+                databaseSheet.setCharisma(sheetToSave.getCharisma());
+                databaseSheet.setIntelligence(sheetToSave.getIntelligence());
+                databaseSheet.setDexterity(sheetToSave.getDexterity());
+                databaseSheet.setManipulation(sheetToSave.getManipulation());
+                databaseSheet.setWits(sheetToSave.getWits());
+                databaseSheet.setStamina(sheetToSave.getStamina());
+                databaseSheet.setComposure(sheetToSave.getComposure());
+                databaseSheet.setResolve(sheetToSave.getResolve());
+
+                return repository.save(databaseSheet);
+            })
+            .orElseThrow(() -> new RuntimeException("Sheet coudn't be saved in the database: no equivalent sheet found there."));
+    }
+
     // DELETE: Delete a sheet
     @DeleteMapping("/sheet/{id}")
     public void deleteSheet(@PathVariable Long id) {
         repository.deleteById(id);
     }
     // } CRUD
-
-    // Business rules
 }
