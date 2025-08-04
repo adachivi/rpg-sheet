@@ -20,15 +20,13 @@ public class Sheet {
     int strength;
     int dexterity;
     int stamina;
-
     // Social
     int charisma;
     int manipulation;
     int composure;
-
     //Mental
     int intelligence;
     int wits;
     int resolve;
-    // }
+    // } Attributes
 }

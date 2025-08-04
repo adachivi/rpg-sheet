@@ -2,45 +2,16 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 
 const Home = () => {
-  const [data, setData] = useState(null);
-
-  // Request data to the API
-  useEffect(() => {
-    api.get('/home')
-      .then(response => {
-        console.log("response.data:", response.data); // Check data's content on console's log
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error("Error: Homepage's data couldn't be found:", error);
-      });
-  }, []);
-
   // View
-  if (!data) return <p style={{ padding: '2rem' }}>Carregando</p>;
-
   return (
-    <div className="page-body">
-      <h1>All Sheets</h1>
-
+    <div className="page-body" style={{display: "flex", justifyContent: "center"}}>
       <div>
-        <table className="home-table">
-          <thead>
-            <tr>
-              <th>Character</th>
-              <th>Player</th>
-            </tr>
-          </thead>
-          {data.map(({characterName, playerName}, index) => (
-          <tbody key={index} className="sheet-summary">
-            <tr>
-              <td>{characterName}</td>
-              <td>{playerName}</td>
-            </tr>
-          </tbody>
-          ))}
-        </table>
-      <div><strong>Sheets:</strong> {data[0].id}</div>
+        <h1>RPG Character Sheet Application</h1>
+        <h2>Welcome!</h2>
+        <p>This app was created to make character sheets for a homebrew RPG of mine.</p>
+        <p>The code of this app is available at my Github profile down below.</p>
+        <h2>Contact</h2>
+        <a href="https://github.com/adachivi">Github</a>
       </div>
     </div>
   );

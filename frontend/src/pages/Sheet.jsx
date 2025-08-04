@@ -1,11 +1,12 @@
-// Sheet page -> see and edit (PUT) sheet's data
+// Sheet page -> see (GET), edit (PUT) or delete (DEL) sheet
+
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "../services/api";
-import { handleCheckboxes, handleTextInputChange, initializeCheckboxes } from "../utils/Utils";
+import { handleCheckboxClick, handleCheckboxes, handleTextInputChange } from "../utils/Utils";
 
 const Sheet = () => {
-  // Sheet's state
+  // Sheet
   const [sheet, setSheet] = useState({
     id: null,
     characterName: "",
@@ -24,12 +25,12 @@ const Sheet = () => {
     resolve: 0
   });
 
-  // Get URL parameters
+  // Get URL parameters (used in all CRUD methods below)
   const [searchParams] = useSearchParams();
   const playerName = searchParams.get("playerName");
   const sheetKey = searchParams.get("sheetKey");
 
-  // GET: Get sheet's data using URL parameters
+  // GET: Get sheet
   useEffect(() => {
     api.get(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`)
       .then(response => {
@@ -40,7 +41,7 @@ const Sheet = () => {
       });
   }, []);
 
-  // PUT: Save sheet (submit it to the database)
+  // PUT: Save sheet
   const [shouldSaveSheet, setShouldSaveSheet] = useState(false);
   useEffect(() => {
     if (shouldSaveSheet) {
@@ -51,8 +52,16 @@ const Sheet = () => {
     };
   }, [shouldSaveSheet]);
 
-  // Attribute's checkboxes {
-  // State
+  // DEL: Delete sheet (DEBUG)
+  const [shouldDeleteSheet, setShouldDeleteSheet] = useState(false);
+  useEffect(() => {
+    if (shouldDeleteSheet) {
+      api.delete(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`);
+      setShouldDeleteSheet(false);
+    };
+  }, [shouldDeleteSheet]);
+
+  // Attribute's checkboxes
   const [attrCheckboxes, setAttrCheckboxes] = useState({
     strength: [false, false, false, false, false],
     charisma: [false, false, false, false, false],
@@ -65,21 +74,20 @@ const Sheet = () => {
     resolve: [false, false, false, false, false]
   });
 
-  // State initialization
+  // Update checkboxes
   useEffect(() => {
-    initializeCheckboxes("strength", sheet.strength, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("charisma", sheet.charisma, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("intelligence", sheet.intelligence, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("dexterity", sheet.dexterity, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("manipulation", sheet.manipulation, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("wits", sheet.wits, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("stamina", sheet.stamina, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("composure", sheet.composure, attrCheckboxes, setAttrCheckboxes);
-    initializeCheckboxes("resolve", sheet.resolve, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("strength", sheet.strength, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("charisma", sheet.charisma, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("intelligence", sheet.intelligence, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("dexterity", sheet.dexterity, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("manipulation", sheet.manipulation, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("wits", sheet.wits, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("stamina", sheet.stamina, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("composure", sheet.composure, attrCheckboxes, setAttrCheckboxes);
+    handleCheckboxes("resolve", sheet.resolve, attrCheckboxes, setAttrCheckboxes);
   }, [sheet]);
-  // } Attribute's checkboxes
 
-  // Test (delete later)
+  // (For testing)
   useEffect(() => {
     console.log("Sheet:", sheet);
   }, [sheet]);
@@ -97,6 +105,7 @@ const Sheet = () => {
           <div>Player: {sheet.playerName}</div>
           <div>Sheet key: {sheet.sheetKey}</div>
         </div>
+        {/* Save button (PUT) */}
         <button type="button" onClick={(event) => {
           event.preventDefault();
           setShouldSaveSheet(true);}}
@@ -148,7 +157,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Strength {attrCheckboxes.strength.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("strength", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("strength", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -156,7 +165,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Charisma {attrCheckboxes.charisma.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("charisma", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("charisma", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -164,7 +173,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Intelligence {attrCheckboxes.intelligence.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("intelligence", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("intelligence", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -174,7 +183,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Dexterity {attrCheckboxes.dexterity.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("dexterity", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("dexterity", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -182,7 +191,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Manipulation {attrCheckboxes.manipulation.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("manipulation", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("manipulation", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -190,7 +199,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Wits {attrCheckboxes.wits.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("wits", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("wits", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -200,7 +209,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Stamina {attrCheckboxes.stamina.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("stamina", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("stamina", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -208,7 +217,7 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Composure {attrCheckboxes.composure.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("composure", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("composure", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
@@ -216,13 +225,20 @@ const Sheet = () => {
               <div className="checkbox-td">
                 Resolve {attrCheckboxes.resolve.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
-                  onChange={() => handleCheckboxes("resolve", index, attrCheckboxes, setAttrCheckboxes, setSheet)} />
+                  onChange={() => handleCheckboxClick("resolve", index, attrCheckboxes, setSheet)} />
                 ))}
               </div>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <div> {/* DEBUG */}
+        <button type="button" onClick={(event) => {
+          event.preventDefault();
+          setShouldDeleteSheet(true);}}
+        >Delete sheet</button>
+      </div>
     </div>
   );
 };

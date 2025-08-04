@@ -1,6 +1,6 @@
-package com.rpgsheet.backend.controllers;
+// CRUD
 
-import java.util.List;
+package com.rpgsheet.backend.controllers;
 
 import com.rpgsheet.backend.models.Sheet;
 import com.rpgsheet.backend.repositories.SheetRepository;
@@ -15,20 +15,13 @@ public class SheetController {
     @Autowired
     private SheetRepository repository;
 
-    // CRUD {
-    // GET: Homepage (APAGAR)
-    @GetMapping(value = "/home")
-    public List<Sheet> getHome() {
-        return repository.findAll();
-    }
-
-    // POST: Create a new sheet
+    // POST: Create a new sheet in the database
     @PostMapping(value = "/sheet")
-    public Sheet createSheet(@RequestBody Sheet newSheet) {
-        return repository.save(newSheet);
+    public Sheet createSheet(@RequestBody Sheet sheet) {
+        return repository.save(sheet);
     }
 
-    // GET: Get a sheet by its playerName and sheetKey values
+    // GET: Get a sheet from the database
     @GetMapping(value = "/sheet")
     public Sheet accessSheet(
         @RequestParam String playerName,
@@ -64,10 +57,12 @@ public class SheetController {
             .orElseThrow(() -> new RuntimeException("Sheet coudn't be saved in the database: no equivalent sheet found there."));
     }
 
-    // DELETE: Delete a sheet
-    @DeleteMapping("/sheet/{id}")
-    public void deleteSheet(@PathVariable Long id) {
-        repository.deleteById(id);
+    // DELETE: Delete a sheet from the database (DEBUG)
+    @DeleteMapping("/sheet")
+    public void deleteSheet(
+        @RequestParam String playerName,
+        @RequestParam String sheetKey
+    ) {
+        repository.deleteByPlayerNameAndSheetKey(playerName, sheetKey);
     }
-    // } CRUD
 }
