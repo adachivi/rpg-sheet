@@ -1,24 +1,24 @@
-# Usar imagem oficial do OpenJDK 17 (alpine para ser leve)
-FROM eclipse-temurin:17-jdk-alpine
+# Etapa 1: Build
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 
-# Diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copiar arquivos necessários para build (pom.xml, .mvn e código fonte)
-COPY backend/pom.xml backend/.mvn ./backend/
-COPY backend/src ./backend/src
+# Copia os arquivos do backend para o container
+COPY . .
 
-# Tornar o wrapper do Maven executável
-RUN chmod +x ./backend/mvnw
+# Faz o build do projeto, gerando o .jar (pula os testes)
+RUN mvn clean package -DskipTests
 
-# Build da aplicação (pula testes para agilizar)
-RUN ./backend/mvnw -f backend/pom.xml clean package -DskipTests
+# Etapa 2: Run
+FROM eclipse-temurin:17-jre-alpine
 
-# Copiar o JAR gerado para a raiz /app
-RUN cp backend/target/backend-0.0.1-SNAPSHOT.jar app.jar
+WORKDIR /app
 
-# Expor a porta que o backend usa
+# Copia o .jar gerado na etapa de build
+COPY --from=build /app/target/*.jar app.jar
+
+# Expõe a porta padrão do Spring Boot (ajuste se for outra)
 EXPOSE 8080
 
-# Comando para rodar o JAR
+# Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
