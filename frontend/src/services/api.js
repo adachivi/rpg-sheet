@@ -1,8 +1,8 @@
-import axios from 'axios'; // Lib. for HTTP requests (GET, POST, etc.)
+import axios from "axios"; // Lib. for HTTP requests (GET, POST, etc.)
 
 // Create an instance of axios integrated with the backend
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: "https://rpg-sheet.onrender.com",
 });
 
 export default api; // Make it available to the rest of the project
