@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build app/target/*.jar app.jar
 
 # Expõe a porta padrão do Spring Boot (ajuste se for outra)
-EXPOSE 8080
+#EXPOSE 8080
 
 # Comando para rodar a aplicação
 # ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
