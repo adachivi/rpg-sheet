@@ -2,6 +2,8 @@
 
 package com.rpgsheet.backend.controllers;
 
+import java.util.List;
+
 import com.rpgsheet.backend.models.Sheet;
 import com.rpgsheet.backend.repositories.SheetRepository;
 
@@ -14,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class SheetController {
     @Autowired
     private SheetRepository repository;
+
+    // GET: Homepage (teste)
+    @GetMapping(value = "/all")
+    public List<Sheet> getAll() {
+        return repository.findAll();
+    }
 
     // POST: Create a new sheet in the database
     @PostMapping(value = "/sheet")
