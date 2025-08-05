@@ -23,4 +23,6 @@ COPY --from=build app/target/*.jar app.jar
 # Comando para rodar a aplicação
 # ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
 
-CMD java -jar app.jar --server.port=$PORT
+#CMD java -jar app.jar --server.port=$PORT
+
+CMD ["sh", "-c", "java -jar app.jar --server.port=$PORT"]
