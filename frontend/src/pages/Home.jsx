@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import api from '../services/api';
+import React, { useEffect, useState } from "react";
+import api from "../services/api";
 
 const Home = () => {
+
   // View
   return (
     <div className="page-body" style={{display: "flex", justifyContent: "center"}}>
@@ -15,6 +16,7 @@ const Home = () => {
       </div>
     </div>
   );
+
 };
 
 export default Home;

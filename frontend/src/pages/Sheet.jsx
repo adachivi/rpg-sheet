@@ -6,6 +6,7 @@ import api from "../services/api";
 import { handleCheckboxClick, handleCheckboxes, handleTextInputChange } from "../utils/Utils";
 
 const Sheet = () => {
+
   // Sheet
   const [sheet, setSheet] = useState({
     id: null,
@@ -32,6 +33,7 @@ const Sheet = () => {
 
   // GET: Get sheet
   useEffect(() => {
+
     api.get(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`)
       .then(response => {
         setSheet(response.data);
@@ -39,26 +41,31 @@ const Sheet = () => {
       .catch(error => {
         console.error("Error: Sheet's data not found:", error);
       });
+
   }, []);
 
   // PUT: Save sheet
   const [shouldSaveSheet, setShouldSaveSheet] = useState(false);
   useEffect(() => {
+
     if (shouldSaveSheet) {
       api.put(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`, sheet, {
         headers: {"Content-type": "application/json"}
       });
       setShouldSaveSheet(false);
     };
+
   }, [shouldSaveSheet]);
 
   // DEL: Delete sheet (DEBUG)
   const [shouldDeleteSheet, setShouldDeleteSheet] = useState(false);
   useEffect(() => {
+
     if (shouldDeleteSheet) {
       api.delete(`/sheet?playerName=${playerName}&sheetKey=${sheetKey}`);
       setShouldDeleteSheet(false);
     };
+
   }, [shouldDeleteSheet]);
 
   // Attribute's checkboxes
@@ -76,6 +83,7 @@ const Sheet = () => {
 
   // Update checkboxes
   useEffect(() => {
+
     handleCheckboxes("strength", sheet.strength, attrCheckboxes, setAttrCheckboxes);
     handleCheckboxes("charisma", sheet.charisma, attrCheckboxes, setAttrCheckboxes);
     handleCheckboxes("intelligence", sheet.intelligence, attrCheckboxes, setAttrCheckboxes);
@@ -85,16 +93,19 @@ const Sheet = () => {
     handleCheckboxes("stamina", sheet.stamina, attrCheckboxes, setAttrCheckboxes);
     handleCheckboxes("composure", sheet.composure, attrCheckboxes, setAttrCheckboxes);
     handleCheckboxes("resolve", sheet.resolve, attrCheckboxes, setAttrCheckboxes);
+
   }, [sheet]);
 
   // (For testing)
   useEffect(() => {
+
     console.log("Sheet:", sheet);
+
   }, [sheet]);
 
   // View
   if (sheet.id == null) return (
-    <p style={{ padding: '2rem' }}>Carregando...</p>
+    <p style={{ padding: "2rem" }}>Loading...</p>
   );
 
   return (

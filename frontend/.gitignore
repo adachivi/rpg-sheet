@@ -7,18 +7,27 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Files from npm
 node_modules
+
+# Build folder (compiled files)
 dist
 dist-ssr
+
+# Local configurations
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Finder metadata (macOS)
 .DS_Store
+
+# Visual Studio
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+
+# Temp. files from others IDEs
 *.sw?
+
+# Permits code extensions recommendation
+!.vscode/extensions.json

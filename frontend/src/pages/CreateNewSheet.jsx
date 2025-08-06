@@ -5,6 +5,7 @@ import api from "../services/api";
 import { handleTextInputChange, verifyPlayerNameInput } from "../utils/Utils";
 
 const CreateNewSheet = () => {
+
   // New blank sheet
   const [sheet, setSheet] = useState({
     characterName: "",
@@ -25,12 +26,15 @@ const CreateNewSheet = () => {
 
   // Sheet key -> used to access it later (GET)
   useEffect(() => {
+
     var generatedValue = Date.now().toString();
     setSheet((prev) => ({...prev, sheetKey: generatedValue})); // Update blank sheet with sheet key
+
   }, []);
 
   // POST: Create a new sheet
   const createSheet = (sheet) => {
+
     if (verifyPlayerNameInput(sheet.playerName)) {
       api.post("/sheet", sheet, {
         headers: {"Content-type": "application/json"}
@@ -38,7 +42,9 @@ const CreateNewSheet = () => {
     }
     else {
       alert("A name must contain at least two letters.\nPlease, try again.");
-    }}
+    }
+
+  }
 
   // View
   return (
@@ -66,6 +72,7 @@ const CreateNewSheet = () => {
         </div>
     </div>
   );
+
 };
 
 export default CreateNewSheet;

@@ -7,6 +7,7 @@ import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
 
 const App = () => {
+
   // Input for sheet's access
   const [input, setInput] = useState({
     playerNameInput: "",
