@@ -20,7 +20,7 @@ const App = () => {
   return (
     <div>
       <nav>
-        <Link to="/home">Home</Link>
+        <Link to="/">Home</Link>
         <Link to="/newsheet">Create new sheet</Link>
 
         {/* Go to existing sheet */}
@@ -64,7 +64,7 @@ const App = () => {
         </form>
       </nav>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/newsheet" element={<CreateNewSheet/>} />
         <Route path="/sheet" element={<Sheet input={input} setInput={setInput} />} />
         <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
