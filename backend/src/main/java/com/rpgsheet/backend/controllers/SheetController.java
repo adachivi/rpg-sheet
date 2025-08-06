@@ -1,8 +1,6 @@
-// CRUD
-
 package com.rpgsheet.backend.controllers;
 
-import java.util.List;
+import java.util.List; // For deployed backend and database integration test
 
 import com.rpgsheet.backend.models.Sheet;
 import com.rpgsheet.backend.repositories.SheetRepository;
@@ -14,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api")
 @CrossOrigin(origins = "*")
 public class SheetController {
+
     @Autowired
     private SheetRepository repository;
 
-    // GET: Homepage (teste)
+    // For deployed backend and database integration test
     @GetMapping(value = "/all")
     public List<Sheet> getAll() {
         return repository.findAll();
@@ -73,4 +72,5 @@ public class SheetController {
     ) {
         repository.deleteByPlayerNameAndSheetKey(playerName, sheetKey);
     }
+
 }

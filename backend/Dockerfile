@@ -1,28 +1,23 @@
-# Etapa 1: Build
+# Build stage vvv
+# Base image
 FROM maven:3.9.4-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
-# Copia os arquivos do backend para o container
 COPY . .
 
-# Faz o build do projeto, gerando o .jar (pula os testes)
+# Make the build (compile the project) and skip the tests
 RUN mvn clean package -DskipTests
+# ^^^ Build stage
 
-# Etapa 2: Run
+# Run stage vvv
+# Lighter base image (without the build tools)
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copia o .jar gerado na etapa de build
 COPY --from=build app/target/*.jar app.jar
 
-# Expõe a porta padrão do Spring Boot (ajuste se for outra)
-#EXPOSE 8080
-
-# Comando para rodar a aplicação
-# ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
-
-#CMD java -jar app.jar --server.port=$PORT
-
+# Run application command
 CMD ["sh", "-c", "java -jar app.jar --server.port=$PORT"]
+# ^^^ Run stage

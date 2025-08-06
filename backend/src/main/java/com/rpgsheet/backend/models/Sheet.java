@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Data // Generate getters, setters, etc. automatically
 public class Sheet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -15,7 +16,7 @@ public class Sheet {
     String concept;
     String sheetKey;
 
-    // Attributes {
+    // Attributes
     // Physical
     int strength;
     int dexterity;
@@ -28,5 +29,5 @@ public class Sheet {
     int intelligence;
     int wits;
     int resolve;
-    // } Attributes
+
 }
