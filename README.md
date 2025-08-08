@@ -15,7 +15,7 @@ An app to create and edit RPG character sheets, saving them in a database.
 This app is split up into three separate deploys: one for the database, one for the backend and another one for the frontend.
 
 ### Database
-**Tech used:** MySQL  
+**Tech used:** MySQL.  
 **Deploy on:** https://railway.com/
 
 ### Backend
