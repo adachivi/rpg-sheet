@@ -19,12 +19,10 @@ const App = () => {
       api.get("/wakeup-backend")
         .then(response => {
           console.log(response.data);
-          console.log("Backend is ready.");
           setIsBackendLoading(false); // Close the pop-up
           clearInterval(interval); // Ends the loop
         })
         .catch(error => {
-          console.log(response.data);
           console.error("Waking up backend:", error);
           setIsBackendLoading(true); // Open the pop-up
         });

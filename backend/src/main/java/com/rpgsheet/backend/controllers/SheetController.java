@@ -17,8 +17,8 @@ public class SheetController {
     // Request to wake up Render's backend
     @GetMapping(value = "/wakeup-backend")
     public String wakeupBackend() {
-        System.out.println("Backend called.");
-        return "Backend called.";
+        System.out.println("Backend is ready.");
+        return "Backend is ready.";
     }
 
     // POST: Create a new sheet in the database
