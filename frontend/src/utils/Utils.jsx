@@ -1,5 +1,22 @@
 // Utility file
 
+// Loading backend pop-up
+export const backendLoadingPopup = (isBackendLoading) => {
+
+    if (!isBackendLoading) {
+        return (null);
+    }
+    else {
+        return (
+            <div className="backendLoadingPopup">
+                <div className="loading-spinner"></div>
+                <p>Conecting to the Database...</p>
+            </div>
+        );
+    };
+
+}
+
 // Updates the sheet's attribute value when a checkbox is clicked
 export const handleCheckboxClick = (attr, index, attrCheckboxes, setSheet) => {
 

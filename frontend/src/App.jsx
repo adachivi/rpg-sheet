@@ -5,23 +5,39 @@ import api from "./services/api";
 import Home from "./pages/Home";
 import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
+import { backendLoadingPopup } from "./utils/Utils";
 
 const App = () => {
+
+  // Activate/deactivate the loading backend pop-up
+  const [isBackendLoading, setIsBackendLoading] = useState(false);
 
   // Make a request to wake up Render's backend
   useEffect(() => {
 
-    api.get("/wakeup-backend")
-      .then(response => {
-        console.log(response.data);
-        console.log("Backend is ready.");
-      })
-      .catch(error => {
-        console.log(response.data);
-        console.error("Waking up backend:", error);
-      });
+    const interval = setInterval(() => {
+      api.get("/wakeup-backend")
+        .then(response => {
+          console.log(response.data);
+          console.log("Backend is ready.");
+          setIsBackendLoading(false); // Close the pop-up
+          clearInterval(interval); // Ends the loop
+        })
+        .catch(error => {
+          console.log(response.data);
+          console.error("Waking up backend:", error);
+          setIsBackendLoading(true); // Open the pop-up
+        });
+    }, 2000); // Set the loop to once each 2 seconds
 
   }, []);
+
+  // Loading backend pop-up
+  useEffect((isBackendLoading) => {
+
+    backendLoadingPopup(isBackendLoading);
+
+  }, [isBackendLoading]);
 
   // Input for sheet's access
   const [input, setInput] = useState({
