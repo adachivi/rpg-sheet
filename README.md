@@ -2,7 +2,7 @@
 Made by Victor Laus Adachi
 
 **Contact:**
-Email: adachivi.laus@gmail.com
+Email: adachivi.laus@gmail.com  
 GitHub: https://github.com/adachivi
 LinkedIn: https://www.linkedin.com/in/v-adachi/
 
