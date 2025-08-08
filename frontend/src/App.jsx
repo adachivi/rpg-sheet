@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
 import { backendLoadingPopup } from "./utils/Utils";
+import Modal from "./utils/Modal";
 
 const App = () => {
 
@@ -23,7 +24,7 @@ const App = () => {
           clearInterval(interval); // Ends the loop
         })
         .catch(error => {
-          console.error("Waking up backend:", error);
+          console.error("Waking up backend...");
           //setIsBackendLoading(true); // Open the pop-up
         });
     }, 10000); // Set the loop to once each 10 seconds
@@ -31,11 +32,11 @@ const App = () => {
   }, []);
 
   // Loading backend pop-up
-  useEffect((isBackendLoading) => {
+  //useEffect((isBackendLoading) => {
 
-    backendLoadingPopup(isBackendLoading);
+    //backendLoadingPopup(isBackendLoading);
 
-  }, [isBackendLoading]);
+  //}, [isBackendLoading]);
 
   // Input for sheet's access
   const [input, setInput] = useState({
@@ -98,6 +99,10 @@ const App = () => {
         <Route path="/sheet" element={<Sheet input={input} setInput={setInput} />} />
         <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
       </Routes>
+
+      <Modal isOpen={isBackendLoading} onClose={() => setIsBackendLoading(false)}>
+        <p>Test</p>
+      </Modal>
     </div>
   );
 };
