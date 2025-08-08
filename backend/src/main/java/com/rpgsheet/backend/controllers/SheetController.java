@@ -1,7 +1,5 @@
 package com.rpgsheet.backend.controllers;
 
-import java.util.List; // For deployed backend and database integration test
-
 import com.rpgsheet.backend.models.Sheet;
 import com.rpgsheet.backend.repositories.SheetRepository;
 
@@ -16,10 +14,11 @@ public class SheetController {
     @Autowired
     private SheetRepository repository;
 
-    // For deployed backend and database integration test
-    @GetMapping(value = "/all")
-    public List<Sheet> getAll() {
-        return repository.findAll();
+    // Request to wake up Render's backend
+    @GetMapping(value = "/wakeup-backend")
+    public String wakeupBackend() {
+        System.out.println("Backend called.");
+        return "Backend called.";
     }
 
     // POST: Create a new sheet in the database

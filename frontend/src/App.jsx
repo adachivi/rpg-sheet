@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createSearchParams, Link, Route, Routes, useNavigate } from "react-router-dom";
 import api from "./services/api";
 // Pages
@@ -7,6 +7,21 @@ import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
 
 const App = () => {
+
+  // Make a request to wake up Render's backend
+  useEffect(() => {
+
+    api.get("/wakeup-backend")
+      .then(response => {
+        console.log(response);
+        console.log("Backend is ready.");
+      })
+      .catch(error => {
+        console.log(response);
+        console.error("Waking up backend:", error);
+      });
+
+  }, []);
 
   // Input for sheet's access
   const [input, setInput] = useState({
