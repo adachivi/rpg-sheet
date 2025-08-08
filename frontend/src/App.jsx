@@ -13,11 +13,11 @@ const App = () => {
 
     api.get("/wakeup-backend")
       .then(response => {
-        console.log(response);
+        console.log(response.data);
         console.log("Backend is ready.");
       })
       .catch(error => {
-        console.log(response);
+        console.log(response.data);
         console.error("Waking up backend:", error);
       });
 
