@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ isOpen, isClose, children }) => {
+const Modal = ({ isOpen, onClose, children }) => {
 
   if (!isOpen) {
     return (null);
