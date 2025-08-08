@@ -7,8 +7,8 @@ const Modal = ({ isOpen, isClose, children }) => {
   }
   else {
     return (
-      <div style={styles.overlay}>
-        <div style={styles.popup}>
+      <div>
+        <div>
           <button onClick={onClose}>X</button>
           {children}
         </div>
