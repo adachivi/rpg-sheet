@@ -5,13 +5,12 @@ import api from "./services/api";
 import Home from "./pages/Home";
 import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
-import { backendLoadingPopup } from "./utils/Utils";
-import Modal from "./utils/Modal";
+import LoadingModal from "./utils/LoadingModal";
 
 const App = () => {
 
-  // Activate/deactivate the loading backend pop-up
-  const [isBackendLoading, setIsBackendLoading] = useState(true);
+  // Activate/deactivate loading data modal (pop-up)
+  const [isLoadingModal, setIsLoadingModal] = useState(true);
 
   // Make a request to wake up Render's backend
   useEffect(() => {
@@ -20,23 +19,16 @@ const App = () => {
       api.get("/wakeup-backend")
         .then(response => {
           console.log(response.data);
-          //setIsBackendLoading(false); // Close the pop-up
+          //setIsLoadingModal(false); // Close the pop-up
           clearInterval(interval); // Ends the loop
         })
         .catch(error => {
           console.error("Waking up backend...");
-          //setIsBackendLoading(true); // Open the pop-up
+          //setIsLoadingModal(true); // Open the pop-up
         });
     }, 10000); // Set the loop to once each 10 seconds
 
   }, []);
-
-  // Loading backend pop-up
-  //useEffect((isBackendLoading) => {
-
-    //backendLoadingPopup(isBackendLoading);
-
-  //}, [isBackendLoading]);
 
   // Input for sheet's access
   const [input, setInput] = useState({
@@ -100,9 +92,9 @@ const App = () => {
         <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
       </Routes>
 
-      <Modal isOpen={isBackendLoading} onClose={() => setIsBackendLoading(false)}>
+      <LoadingModal isOpen={isLoadingModal} onClose={() => setIsLoadingModal(false)}>
         <p>Test</p>
-      </Modal>
+      </LoadingModal>
     </div>
   );
 };

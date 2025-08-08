@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const LoadingModal = ({ isOpen, onClose, children }) => {
 
   if (!isOpen) {
     return (null);
@@ -18,4 +18,4 @@ const Modal = ({ isOpen, onClose, children }) => {
 
 }
 
-export default Modal;
+export default LoadingModal;
