@@ -10,7 +10,7 @@ import { backendLoadingPopup } from "./utils/Utils";
 const App = () => {
 
   // Activate/deactivate the loading backend pop-up
-  const [isBackendLoading, setIsBackendLoading] = useState(false);
+  const [isBackendLoading, setIsBackendLoading] = useState(true);
 
   // Make a request to wake up Render's backend
   useEffect(() => {
@@ -19,14 +19,14 @@ const App = () => {
       api.get("/wakeup-backend")
         .then(response => {
           console.log(response.data);
-          setIsBackendLoading(false); // Close the pop-up
+          //setIsBackendLoading(false); // Close the pop-up
           clearInterval(interval); // Ends the loop
         })
         .catch(error => {
           console.error("Waking up backend:", error);
-          setIsBackendLoading(true); // Open the pop-up
+          //setIsBackendLoading(true); // Open the pop-up
         });
-    }, 2000); // Set the loop to once each 2 seconds
+    }, 10000); // Set the loop to once each 10 seconds
 
   }, []);
 
