@@ -6,11 +6,15 @@ import Home from "./pages/Home";
 import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
 import LoadingModal from "./utils/LoadingModal";
+import LoadingCompleteModal from "./utils/LoadingCompleteModal";
 
 const App = () => {
 
   // Activate/deactivate loading data modal (pop-up)
-  const [isLoadingModal, setIsLoadingModal] = useState(true);
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
+
+  // Activate/deactivate loading complete modal (pop-up)
+  const [isLoadingCompleteModal, setIsLoadingCompleteModal] = useState(false);
 
   // Make a request to wake up Render's backend
   useEffect(() => {
@@ -19,12 +23,14 @@ const App = () => {
       api.get("/wakeup-backend")
         .then(response => {
           console.log(response.data);
-          //setIsLoadingModal(false); // Close the pop-up
+          setIsLoadingModal(false); // Close the pop-up
           clearInterval(interval); // Ends the loop
         })
         .catch(error => {
           console.error("Waking up backend...");
-          //setIsLoadingModal(true); // Open the pop-up
+          if (!isLoadingModal) {
+            setIsLoadingModal(true); // Open the pop-up
+          }
         });
     }, 10000); // Set the loop to once each 10 seconds
 
@@ -92,9 +98,12 @@ const App = () => {
         <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
       </Routes>
 
-      <LoadingModal isOpen={isLoadingModal} onClose={() => setIsLoadingModal(false)}>
+      <LoadingModal isOpen={isLoadingModal} onClose={() => setIsLoadingCompleteModal(true)}>
         <p>Test</p>
       </LoadingModal>
+      <LoadingCompleteModal isOpen={isLoadingCompleteModal} onClose={() => setIsLoadingCompleteModal(false)}>
+        <p>Test 2</p>
+      </LoadingCompleteModal>
     </div>
   );
 };
