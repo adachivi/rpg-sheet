@@ -3,8 +3,17 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { handleTextInputChange, verifyPlayerNameInput } from "../utils/Utils";
+import DefaultPopup from "../modals/DefaultPopup";
 
 const CreateNewSheet = () => {
+
+  // Pop-ups control
+  // Invalid name pop-up
+  const [invalidNamePopup, setInvalidNamePopup] = useState(false);
+  // Create new sheet success pop-up
+  const [successPopup, setSuccessPopup] = useState(false);
+  // Create new sheet error pop-up
+  const [errorPopup, setErrorPopup] = useState(false);
 
   // New blank sheet
   const [sheet, setSheet] = useState({
@@ -38,10 +47,16 @@ const CreateNewSheet = () => {
     if (verifyPlayerNameInput(sheet.playerName)) {
       api.post("/sheet", sheet, {
         headers: {"Content-type": "application/json"}
+      })
+      .then(response => {
+        setSuccessPopup(true);
+      })
+      .catch(error => {
+        setErrorPopup(true);
       });
     }
     else {
-      alert("A name must contain at least two letters.\nPlease, try again.");
+      setInvalidNamePopup(true);
     }
 
   }
@@ -69,7 +84,22 @@ const CreateNewSheet = () => {
           <br />
           <button onClick={() => createSheet(sheet)}>Create sheet</button>
         </div>
-        </div>
+      </div>
+
+      {/* Pop-ups */}
+
+      <DefaultPopup isOpen={successPopup} onClose={() => setSuccessPopup(false)}>
+        <p style={{textAlign: "center"}}>Sheet created with success.</p>
+      </DefaultPopup>
+
+      <DefaultPopup isOpen={errorPopup} onClose={() => setErrorPopup(false)}>
+        <p style={{textAlign: "center"}}>An error has ocurred. Sheet could not be created.</p>
+      </DefaultPopup>
+
+      <DefaultPopup isOpen={invalidNamePopup} onClose={() => setInvalidNamePopup(false)}>
+        <p style={{textAlign: "center"}}>A name must contain at least two letters.</p>
+        <p style={{textAlign: "center"}}>Please, try again.</p>
+      </DefaultPopup>
     </div>
   );
 

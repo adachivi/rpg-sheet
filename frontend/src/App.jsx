@@ -5,16 +5,12 @@ import api from "./services/api";
 import Home from "./pages/Home";
 import CreateNewSheet from "./pages/CreateNewSheet";
 import Sheet from "./pages/Sheet";
-import LoadingModal from "./utils/LoadingModal";
-import LoadingCompleteModal from "./utils/LoadingCompleteModal";
+import LoadingPopup from "../modals/LoadingPopup";
 
 const App = () => {
 
-  // Activate/deactivate loading data modal (pop-up)
-  const [isLoadingModal, setIsLoadingModal] = useState(false);
-
-  // Activate/deactivate loading complete modal (pop-up)
-  const [isLoadingCompleteModal, setIsLoadingCompleteModal] = useState(false);
+  // Loading data pop-up control
+  const [loadingDataPopup, setLoadingDataPopup] = useState(false);
 
   // Make a request to wake up Render's backend
   useEffect(() => {
@@ -23,13 +19,13 @@ const App = () => {
       api.get("/wakeup-backend")
         .then(response => {
           console.log(response.data);
-          setIsLoadingModal(false); // Close the pop-up
+          setLoadingDataPopup(false); // Close loading pop-up
           clearInterval(interval); // Ends the loop
         })
         .catch(error => {
           console.error("Waking up backend...");
-          if (!isLoadingModal) {
-            setIsLoadingModal(true); // Open the pop-up
+          if (!loadingDataPopup) {
+            setLoadingDataPopup(true); // Open loading pop-up
           }
         });
     }, 10000); // Set the loop to once each 10 seconds
@@ -46,7 +42,7 @@ const App = () => {
 
   // View
   return (
-    <div>
+    <>
       <nav>
         <Link to="/">Home</Link>
         <Link to="/newsheet">Create new sheet</Link>
@@ -91,6 +87,7 @@ const App = () => {
           </div>
         </form>
       </nav>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newsheet" element={<CreateNewSheet/>} />
@@ -98,13 +95,12 @@ const App = () => {
         <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
       </Routes>
 
-      <LoadingModal isOpen={isLoadingModal} onClose={() => setIsLoadingCompleteModal(true)}>
+      {/* Pop-ups */}
+
+      <LoadingPopup isOpen={isLoadingModal}>
         <p>Test</p>
-      </LoadingModal>
-      <LoadingCompleteModal isOpen={isLoadingCompleteModal} onClose={() => setIsLoadingCompleteModal(false)}>
-        <p>Test 2</p>
-      </LoadingCompleteModal>
-    </div>
+      </LoadingPopup>
+    </>
   );
 };
 
