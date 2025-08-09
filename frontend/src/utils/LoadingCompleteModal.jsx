@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingModal = ({ isOpen, onClose, children }) => {
+const LoadingCompleteModal = ({ isOpen, onClose, children }) => {
 
   if (!isOpen) {
     return (null);
@@ -9,6 +9,7 @@ const LoadingModal = ({ isOpen, onClose, children }) => {
     return (
       <div>
         <div>
+          <button onClick={onClose}>X</button>
           {children}
         </div>
       </div>
@@ -17,4 +18,4 @@ const LoadingModal = ({ isOpen, onClose, children }) => {
 
 }
 
-export default LoadingModal;
+export default LoadingCompleteModal;
