@@ -13,13 +13,19 @@ const DefaultPopup = ({ isOpen, onClose, children }) => {
 
       <style>{`
 
+      p {
+        text-align: center;
+        margin: 5px 0px 5px 0px;
+        padding: 0px 5px 0px 5px;
+      }
+
       .modal {
         position: fixed;
-        top: 0.5%;
+        top: 1%;
         left: 50%;
         transform: translate(-50%);
         background: #fff;
-        padding: 20px 25px 15px;
+        padding: 15px 20px 15px;
         border-radius: 20px;
         box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
         z-index: 1000

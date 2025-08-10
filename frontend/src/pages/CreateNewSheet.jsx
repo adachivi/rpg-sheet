@@ -1,6 +1,7 @@
 // Page to create (POST) a new (almost) blank character sheet
 
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { handleTextInputChange, verifyPlayerNameInput } from "../utils/Utils";
 import DefaultPopup from "../modals/DefaultPopup";
@@ -13,7 +14,7 @@ const CreateNewSheet = () => {
   // Create new sheet success pop-up
   const [successPopup, setSuccessPopup] = useState(false);
   // Create new sheet error pop-up
-  const [errorPopup, setErrorPopup] = useState(false);
+  const [errorPopup, setErrorPopup] = useState(true);
 
   // New blank sheet
   const [sheet, setSheet] = useState({
@@ -53,6 +54,9 @@ const CreateNewSheet = () => {
       })
       .catch(error => {
         setErrorPopup(true);
+        setTimeout(() => {
+          navigate("/"); // Return to home
+        }, 5000) // Wait 5 seconds before redirect
       });
     }
     else {
@@ -60,6 +64,8 @@ const CreateNewSheet = () => {
     }
 
   }
+
+  const navigate = useNavigate();
 
   // View
   return (
@@ -89,16 +95,17 @@ const CreateNewSheet = () => {
       {/* Pop-ups */}
 
       <DefaultPopup isOpen={successPopup} onClose={() => setSuccessPopup(false)}>
-        <p style={{textAlign: "center"}}>Sheet created with success.</p>
+        <p>Sheet created with success.</p>
       </DefaultPopup>
 
       <DefaultPopup isOpen={errorPopup} onClose={() => setErrorPopup(false)}>
-        <p style={{textAlign: "center"}}>An error has ocurred. Sheet could not be created.</p>
+        <p>An error has ocurred.</p>
+        <p>Sheet could not be created.</p>
       </DefaultPopup>
 
       <DefaultPopup isOpen={invalidNamePopup} onClose={() => setInvalidNamePopup(false)}>
-        <p style={{textAlign: "center"}}>A name must contain at least two letters.</p>
-        <p style={{textAlign: "center"}}>Please, try again.</p>
+        <p>A name must contain at least two letters.</p>
+        <p>Please, try again.</p>
       </DefaultPopup>
     </div>
   );
