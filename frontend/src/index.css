@@ -1,15 +1,22 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-weight: 400;
   line-height: 1.5;
-
-  color: rgba(0,0,0,1);
+  color: rgb(30,30,30);
   background-color: #f9f2e6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 p {
@@ -21,8 +28,9 @@ a {
 }
 
 h1 {
+  font-size: 1.8em;
   text-align: center;
-  margin-top: 0;
+  margin: 0;
 }
 
 h3 {
@@ -33,8 +41,38 @@ fieldset {
   all: unset;
 }
 
-.page-body {
+/* ID's vvv */
+
+/* ^^^ ID's */
+
+.line-div {
+  border-bottom: 2px solid black;
+  width: 100%;
+  margin: 0px 0px 20px 0px;
+}
+
+.main {
   padding: 2rem;
+  font-size: 125%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-div {
+  background-color: #333;
+  padding: 15px 25px;
+  border-radius: 20px;
+  max-width: 430px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+.welcome-div h2 {
+  margin-top: 10px;
+}
+
+.welcome-div p, h2 {
+  color: #f2f2f2;
 }
 
 /* TABLES vvv */
@@ -69,13 +107,14 @@ th {
 }
 /* ^^^ TABLES */
 
-/* NAVEGATION BAR vvv */
+/* Navegation bar vvv */
 nav {
-  background-color: #333;
+  background-color: black;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  padding: 1rem;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
 }
 
 nav a {
@@ -107,17 +146,20 @@ nav form {
   flex-wrap: wrap;
   justify-content: space-between;
   display: flex;
-  padding-top: 14px;
+  padding-top: 7px;
   padding-bottom: 14px;
   padding-left: 16px;
+  padding-right: 16px;
   margin-left: auto;
 }
 
 #form-text {
   color: #f2f2f2;
+  font-size: 14px;
   font-weight: 500;
   display: flex;
   align-items: center;
+  padding-left: 3px;
 }
 
 #form-inputs {
@@ -131,16 +173,44 @@ nav form {
   display: flex;
   gap: 10px;
 }
-/* ^^^ NAVEGATION BAR */
+/* ^^^ Navegation bar */
+
+/* Footer vvv */
+
+#footer {
+  height:350px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#footer p {
+  color: rgba(242,242,242,0.7);
+  font-size: 16px;
+  margin: 15px 0 5px 0;
+}
+
+.contact-links-div {
+  display: flex;
+  column-gap: 14px;
+}
+
+.contact-links-div a {
+  color: rgba(242,242,242,0.7);
+  font-size: 14px;
+}
+
+.contact-links-div a:hover {
+  color: rgba(9,105,218,1);
+  text-decoration: underline;
+}
+
+/* Footer vvv */
 
 /*
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
 
 button {
   border-radius: 8px;

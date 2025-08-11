@@ -54,68 +54,67 @@ const App = () => {
 
   // View
   return (
-    <>
-      <nav>
-        {homeLink}
-        {newSheetLink}
+  <>
+    <nav>
+      {homeLink}
+      {newSheetLink}
 
-        {/* Go to existing sheet */}
-        <form>
-          <fieldset disabled={loadingDataPopup}> {/* Disable form while backend is as sleep */}
-            <div id="form-text">Access sheet</div>
-            <div id="form-input-and-button">
-              <div id="form-inputs">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  onChange={
-                    (event) => setInput((prev) => ({...prev, playerNameInput: event.target.value}))
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="Sheet key"
-                  onChange={
-                    (event) => setInput((prev) => ({...prev, sheetKeyInput: event.target.value}))
-                  }
-                />
-              </div>
-              <button onClick={(event) => {
-                event.preventDefault();
-                api.get(`/sheet?playerName=${input.playerNameInput}&sheetKey=${input.sheetKeyInput}`)
-                  .then(response => {
-                    navigate({
-                      pathname: "/sheet",
-                      search: createSearchParams({
-                        playerName: input.playerNameInput,
-                        sheetKey: input.sheetKeyInput
-                      }).toString()
-                    })
-                  })
-                  .catch(error => {
-                    console.error("Error: Sheet's data not found:", error);
-                  });
-                }}
-              >Submit</button>
+      {/* Go to existing sheet */}
+      <form>
+        <fieldset disabled={loadingDataPopup}> {/* Disable form while backend is as sleep */}
+          <div id="form-text">Access sheet</div>
+          <div id="form-input-and-button">
+            <div id="form-inputs">
+              <input
+                type="text"
+                placeholder="Name"
+                onChange={
+                  (event) => setInput((prev) => ({...prev, playerNameInput: event.target.value}))
+                }
+              />
+              <input
+                type="text"
+                placeholder="Sheet key"
+                onChange={
+                  (event) => setInput((prev) => ({...prev, sheetKeyInput: event.target.value}))
+                }
+              />
             </div>
-          </fieldset>
-        </form>
-      </nav>
+            <button onClick={(event) => {
+              event.preventDefault();
+              api.get(`/sheet?playerName=${input.playerNameInput}&sheetKey=${input.sheetKeyInput}`)
+                .then(response => {
+                  navigate({
+                    pathname: "/sheet",
+                    search: createSearchParams({
+                      playerName: input.playerNameInput,
+                      sheetKey: input.sheetKeyInput
+                    }).toString()
+                  })
+                })
+                .catch(error => {
+                  console.error("Error: Sheet's data not found:", error);
+                });
+              }}
+            >Submit</button>
+          </div>
+        </fieldset>
+      </form>
+    </nav>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/newsheet" element={<CreateNewSheet/>} />
-        <Route path="/sheet" element={<Sheet input={input} setInput={setInput} />} />
-        <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
-      </Routes>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/newsheet" element={<CreateNewSheet/>} />
+      <Route path="/sheet" element={<Sheet input={input} setInput={setInput} />} />
+      <Route path="*" element={<p style={{ padding: "2rem" }}>Error 404: Page not found.</p>} />
+    </Routes>
 
-      {/* Pop-ups */}
-
-      <LoadingPopup isOpen={loadingDataPopup}>
-        <p>Conecting to the database.</p>
-        <p>Please wait.</p>
-      </LoadingPopup>
-    </>
+    {/* Pop-ups */}
+    <LoadingPopup isOpen={loadingDataPopup}>
+      <p>Conecting to the database.</p>
+      <p>Please wait.</p>
+    </LoadingPopup>
+  </>
   );
 };
 

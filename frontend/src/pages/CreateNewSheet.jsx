@@ -14,7 +14,7 @@ const CreateNewSheet = () => {
   // Create new sheet success pop-up
   const [successPopup, setSuccessPopup] = useState(false);
   // Create new sheet error pop-up
-  const [errorPopup, setErrorPopup] = useState(true);
+  const [errorPopup, setErrorPopup] = useState(false);
 
   // New blank sheet
   const [sheet, setSheet] = useState({
@@ -69,7 +69,7 @@ const CreateNewSheet = () => {
 
   // View
   return (
-    <div className="page-body" style={{display: "flex", justifyContent: "center"}}>
+    <div className="main" style={{display: "flex", justifyContent: "center"}}>
       <div>
         <h2 style={{textAlign: "center", marginTop: "0px"}}>Create new sheet</h2>
         <div style={{display: "flex", columnGap: "10px", justifyContent: "center", flexWrap: "wrap"}}>

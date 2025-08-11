@@ -109,7 +109,7 @@ const Sheet = () => {
   );
 
   return (
-    <div className="page-body">
+    <div className="main">
       <div>
         {/* Sheet's access info */}
         <div>
