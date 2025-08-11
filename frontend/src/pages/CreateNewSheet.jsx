@@ -69,28 +69,39 @@ const CreateNewSheet = () => {
 
   // View
   return (
-    <div className="main" style={{display: "flex", justifyContent: "center"}}>
-      <div>
-        <h2 style={{textAlign: "center", marginTop: "0px"}}>Create new sheet</h2>
-        <div style={{display: "flex", columnGap: "10px", justifyContent: "center", flexWrap: "wrap"}}>
-          <div>Please, insert your name:</div>
-          <input
-            type="text"
-            value={sheet.playerName}
-            onChange={(event) => handleTextInputChange("playerName", event, setSheet)}
-          />
+  <>
+    <div className="main">
+      <h2>Create new sheet</h2>
+      <div className="create-new-sheet-div">
+          <div style={{display: "flex", flexDirection: "column", justifyItems: "center", padding: "0 27px"}}>
+            <div style={{marginBottom: "2px"}}>Your name</div>
+            <input
+              type="text"
+              value={sheet.playerName}
+              onChange={(event) => handleTextInputChange("playerName", event, setSheet)}
+            />
+          </div>
+        <div style={{textAlign: "center", marginTop: "10px"}}>
+          Sheet key: {sheet.sheetKey}
         </div>
-        <div style={{marginTop: "10px" ,textAlign: "center"}}>
-          Your sheet key: {sheet.sheetKey}
-        </div>
-        <div style={{textAlign: "center"}}>
+
+        <div className="warning-div">
           <h3>ATTENTION!</h3>
           <p>You will need your name and key to access your sheet.</p>
           <p>Be sure to save it somewhere.</p>
-          <br />
-          <button onClick={() => createSheet(sheet)}>Create sheet</button>
+          <button style={{margin: "5px auto"}} onClick={() => createSheet(sheet)}>Create sheet</button>
         </div>
       </div>
+    </div>
+
+    <div id="footer">
+      <p>Made by Victor L. Adachi</p>
+      <p>Contact</p>
+      <div className="contact-links-div">
+        <a href="https://github.com/adachivi">GitHub</a>
+        <a href="https://www.linkedin.com/in/v-adachi/">LinkedIn</a>
+      </div>
+    </div>
 
       {/* Pop-ups */}
 
@@ -107,7 +118,7 @@ const CreateNewSheet = () => {
         <p>A name must contain at least two letters.</p>
         <p>Please, try again.</p>
       </DefaultPopup>
-    </div>
+  </>
   );
 
 };
