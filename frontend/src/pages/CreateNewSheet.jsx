@@ -70,6 +70,7 @@ const CreateNewSheet = () => {
   // View
   return (
   <>
+  <div className="main-background">
     <div className="main">
       <h2>Create new sheet</h2>
       <div className="create-new-sheet-div">
@@ -92,6 +93,7 @@ const CreateNewSheet = () => {
           <button style={{margin: "5px auto"}} onClick={() => createSheet(sheet)}>Create sheet</button>
         </div>
       </div>
+    </div>
     </div>
 
     <div id="footer">

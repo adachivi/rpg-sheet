@@ -15,8 +15,6 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 p {
@@ -30,11 +28,12 @@ a {
 h1 {
   font-size: 1.8em;
   text-align: center;
+  padding: 0 10px 0 10px;
   margin: 0;
 }
 
 h2 {
-  margin: 0 0 5px 0;
+  margin: 0;
 }
 
 fieldset {
@@ -43,32 +42,52 @@ fieldset {
 
 .line-div {
   border-bottom: 2px solid black;
-  width: 100%;
+  width: 90%;
   margin: 0px 0px 20px 0px;
 }
 
-.main {
-  padding: 2rem;
-  font-size: 125%;
+.gray-line-div {
+  border-bottom: 1px solid gray;
+  width: 90%;
+  margin: 20px 0px 20px 0px;
+}
+
+.main-background {
+  width: 100%;
+  background-color: #333;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.welcome-div {
-  background-color: #333;
-  padding: 15px 25px;
-  border-radius: 20px;
-  max-width: 430px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+.main {
+  padding: 2rem 2rem;
+  /*font-size: 125%;*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 700px;
+  background-color: #f2f2f2;
 }
 
-.welcome-div h2 {
+.main-section {
+  width: 80%;
+}
+
+@media (max-width: 700px) {
+  .main {
+    width: 100%;
+  }
+
+  .main h1, .line-div, .welcome-div, .create-new-sheet-div {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.main-section h2 {
   margin-top: 10px;
-}
-
-.welcome-div p, .welcome-div h2 {
-  color: #f2f2f2;
 }
 
 .create-new-sheet-div {
