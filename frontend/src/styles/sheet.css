@@ -1,0 +1,53 @@
+.sheet-main {
+  padding: 2rem;
+  background-color: rgb(242,242,242);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.save-button-div {
+    width: 100%;
+    padding-bottom: 32px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.sheet-table { 
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.sheet-table th, .sheet-table td {
+  padding: 3px;
+  border: 1px solid black;
+}
+
+.sheet-table th {
+  text-align: center;
+}
+
+#general-info-table {
+  max-width: 700px;
+}
+
+#attribute-table {
+  max-width: 700px;
+}
+
+.text-input-td {
+  width: 95%;
+}
+
+.checkbox-td {
+    padding-left: 3px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.sheet-line-div {
+  border-bottom: 1px solid black;
+  width: 100%;
+  margin: 0px 0px 20px 0px;
+}

@@ -94,7 +94,7 @@ const CreateNewSheet = () => {
         </div>
       </div>
     </div>
-    </div>
+  </div>
 
     <div id="footer">
       <p>Made by Victor L. Adachi</p>

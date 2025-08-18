@@ -36,6 +36,10 @@ h2 {
   margin: 0;
 }
 
+h4 {
+  margin-bottom: 3px;
+}
+
 fieldset {
   all: unset;
 }
@@ -58,17 +62,17 @@ fieldset {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .main {
-  padding: 2rem 2rem;
-  /*font-size: 125%;*/
+  width: 80%;
+  max-width: 700px;
+  padding: 2rem;
+  background-color: rgb(242,242,242);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
-  max-width: 700px;
-  background-color: #f2f2f2;
 }
 
 .main-section {
@@ -124,62 +128,30 @@ fieldset {
   font-size: 1rem;
   text-align: justify;
 }
-
-/* TABLES vvv */
-td, th {
-  border: 1px solid black;
-}
-
-th {
-  text-align: center;
-}
-
-.home-table {
-  border-collapse: collapse;
-}
-
-.home-table td {
-  text-align: left;
-}
-
-.home-table th {
-  text-align: left;
-}
-
-.sheet-table { 
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.attribute-td-content {
-  display: flex;
-  flex-wrap: wrap;
-}
-/* ^^^ TABLES */
-
+/* aqui pra cima*/
 /* Navegation bar vvv */
 nav {
-  background-color: black;
   width: 100%;
+  background-color: black;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3); /* Is this working? */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
 }
 
 nav a {
-  color: #f2f2f2;
+  font-weight: 500;
+  color: rgb(242,242,242);
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  font-weight: 500;
-  padding: 14px 16px;
 }
 
 nav a:hover {
-  background-color: #ddd;
   color: black;
+  background-color: rgb(221,221,221);
 }
-
+/* aqui*/
 .disabled-link {
   color: rgb(102,102,102);
   opacity: 0.7;

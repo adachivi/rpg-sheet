@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "../services/api";
 import { handleCheckboxClick, handleCheckboxes, handleTextInputChange } from "../utils/Utils";
+import "../styles/sheet.css"
 
 const Sheet = () => {
 
@@ -109,14 +110,9 @@ const Sheet = () => {
   );
 
   return (
-    <div className="main">
-      <div>
-        {/* Sheet's access info */}
-        <div>
-          <div>Player: {sheet.playerName}</div>
-          <div>Sheet key: {sheet.sheetKey}</div>
-        </div>
-        {/* Save button (PUT) */}
+    <div className="sheet-main">
+      {/* Save button (PUT) */}
+      <div className="save-button-div">
         <button type="button" onClick={(event) => {
           event.preventDefault();
           setShouldSaveSheet(true);}}
@@ -124,17 +120,18 @@ const Sheet = () => {
       </div>
 
       {/* General info */}
-      <table className="sheet-table">
+      <table id="general-info-table" className="sheet-table">
         <thead>
           <tr>
             <th>Character</th>
-            <th>Concept</th>
+            <th>Player</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
               <input
+                className="text-input-td"
                 type="text"
                 value={sheet.characterName}
                 onChange={(event) => handleTextInputChange("characterName", event, setSheet)}
@@ -142,19 +139,37 @@ const Sheet = () => {
             </td>
             <td>
               <input
+                className="text-input-td"
                 type="text"
-                value={sheet.concept}
-                onChange={(event) => handleTextInputChange("concept", event, setSheet)}
+                value={sheet.playerName}
+                onChange={(event) => handleTextInputChange("playerName", event, setSheet)}
               />
             </td>
           </tr>
         </tbody>
       </table>
 
+      <table className="sheet-table">
+        <thead>
+          <tr><th>Concept</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>
+            <input
+                className="text-input-td"
+                type="text"
+                value={sheet.concept}
+                onChange={(event) => handleTextInputChange("concept", event, setSheet)}
+              />
+          </td></tr>
+        </tbody>
+      </table>
+
 
       {/* Attributes */}
-      <div>Attributes</div>
-      <table className="sheet-table">
+      <h4>Attributes</h4>
+      <div className="sheet-line-div"></div>
+      <table id="attribute-table" className="sheet-table">
         <thead>
           <tr>
             <th>Physical</th>
@@ -166,83 +181,117 @@ const Sheet = () => {
           <tr>
             <td> {/* Strength */}
               <div className="checkbox-td">
-                Strength {attrCheckboxes.strength.map((checked, index) => (
+                Strength
+                <div>
+                  {attrCheckboxes.strength.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("strength", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
             <td> {/* Charisma */}
               <div className="checkbox-td">
-                Charisma {attrCheckboxes.charisma.map((checked, index) => (
+                Charisma
+                <div>
+                  {attrCheckboxes.charisma.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("charisma", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
             <td> {/* Intelligence */}
               <div className="checkbox-td">
-                Intelligence {attrCheckboxes.intelligence.map((checked, index) => (
+                Intelligence
+                <div>
+                  {attrCheckboxes.intelligence.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("intelligence", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
           </tr>
           <tr>
             <td> {/* Dexterity */}
               <div className="checkbox-td">
-                Dexterity {attrCheckboxes.dexterity.map((checked, index) => (
+                Dexterity
+                <div>
+                  {attrCheckboxes.dexterity.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("dexterity", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
             <td> {/* Manipulation */}
               <div className="checkbox-td">
-                Manipulation {attrCheckboxes.manipulation.map((checked, index) => (
+                Manipulation
+                <div>
+                  {attrCheckboxes.manipulation.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("manipulation", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
             <td> {/* Wits */}
               <div className="checkbox-td">
-                Wits {attrCheckboxes.wits.map((checked, index) => (
+                Wits
+                <div>
+                  {attrCheckboxes.wits.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("wits", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
           </tr>
           <tr>
             <td> {/* Stamina */}
               <div className="checkbox-td">
-                Stamina {attrCheckboxes.stamina.map((checked, index) => (
+                Stamina
+                <div>
+                  {attrCheckboxes.stamina.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("stamina", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
             <td> {/* Composure */}
               <div className="checkbox-td">
-                Composure {attrCheckboxes.composure.map((checked, index) => (
+                Composure
+                <div>
+                  {attrCheckboxes.composure.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("composure", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
             <td> {/* Resolve */}
               <div className="checkbox-td">
-                Resolve {attrCheckboxes.resolve.map((checked, index) => (
+                Resolve
+                <div>
+                  {attrCheckboxes.resolve.map((checked, index) => (
                   <input key={index} type="checkbox" checked={checked}
                   onChange={() => handleCheckboxClick("resolve", index, attrCheckboxes, setSheet)} />
-                ))}
+                  ))}
+                </div>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
+
+      {/* Health and Willpower */}
+      <div>
+      </div>
+
+      <h4>Skills</h4>
+      <div className="sheet-line-div"></div>
 
       <div> {/* DEBUG */}
         <button type="button" onClick={(event) => {
