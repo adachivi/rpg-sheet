@@ -7,10 +7,11 @@ import java.util.Optional;
 // Inherits from JpaRepository (gets findAll(), findById, save(), etc. from it)
 public interface SheetRepository extends JpaRepository<Sheet, Long> {
 
-    // Custom method for finding a sheet by its playerName and sheetKey values
+    // Custom methods
+    
+    // Derived Query Methods (Spring Data JPA)
     Optional<Sheet> findByPlayerNameAndSheetKey(String playerName, String sheetKey);
-
-    // Custom method for deleting a sheet by its playerName and sheetKey values (DEBUG)
+    // (DEBUG)
     void deleteByPlayerNameAndSheetKey(String playerName, String sheetKey);
 
 }

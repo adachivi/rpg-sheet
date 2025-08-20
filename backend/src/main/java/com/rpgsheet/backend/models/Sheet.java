@@ -1,3 +1,5 @@
+// Character sheet model
+
 package com.rpgsheet.backend.models;
 
 import jakarta.persistence.*;
